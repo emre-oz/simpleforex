@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h1>Daily Exchange Rates</h1>
+    <form action="{{ url_for('period_data') }}" method="post" novalidate>
+        <p>
+            {{form.start_day.label}} <br>
+            {{ form.start_day() }} 
+        </p>
+        <p>
+            {{form.end_day.label}} <br>
+            {{ form.end_day() }} 
+        </p>
+        <p>
+            {{ form.base.label }} <br>
+            {{form.base()}} 
+        </p>
+        <p>
+            {{ form.symbols.label }} <br>
+            {{form.symbols()}} 
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}

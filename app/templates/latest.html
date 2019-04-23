@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - FOREXR</title>
+        {% else %}
+        <title>Welcome to FOREXR</title>
+        {% endif %}
+    </head>
+    <body>
+    <table style="margin-left: 200px;"> 
+
+        <th> 
+            <tr style="color: green; ">     
+            <td>Currency </td> 
+            <td>Rate</td> 
+    </tr> 
+        </th> 
+    {%for cur in news%} 
+                    
+    <tr> 
+        <td>{{cur}}</td> 
+        <td>{{news[cur]}}</td> 
+                      
+    {%endfor%} 
+                      
+    </tr> 
+    </table></body>
+</html>
+{% endblock %}
+ 

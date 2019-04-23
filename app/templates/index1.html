@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - FOREXR</title>
+        {% else %}
+        <title>Welcome to FOREXR</title>
+        {% endif %}
+    </head>
+    <body>
+    <table style="margin-left: 20px;"> 
+
+        <th> 
+            <tr style="color: black; ">     
+            <td> Currency </td> 
+            <td> Rate </td>
+            <td> Last Refreshed </td>
+            <td> Timezone </td> 
+            </tr> 
+        </th> 
+    
+    <tr> 
+        
+        {%for i in l1%}
+        
+        <td>{{i}}</td>  
+                      
+        {%endfor%} 
+                      
+    </tr>
+    <tr> 
+        
+        {%for j in l2%}
+
+        <td>{{j}}</td>  
+                      
+        {%endfor%} 
+                      
+    </tr>
+    <tr> 
+        
+        {%for k in l3%}
+        
+        <td>{{k}}</td>  
+                      
+        {%endfor%} 
+    
+    </tr>
+    <tr> 
+    
+        {%for m in l4%}
+
+        <td>{{m}}</td>  
+                      
+        {%endfor%} 
+                      
+    </tr>
+    <tr> 
+        
+        {%for n in l5%}
+        
+        <td>{{n}}</td>  
+                      
+        {%endfor%} 
+                      
+    </tr>
+    </table></body>
+</html>
+{% endblock %}
+ 
