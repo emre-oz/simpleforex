@@ -1,4 +1,4 @@
-
+import random
 
 def url_define_latest(base=None, symbols=None):
     
@@ -51,9 +51,9 @@ def url_define_period(start_date,end_date,symbols=None,base=None):
     return url
 
 def url_list_define_live():
-    api_key_1 = "PXHH820C97TBS0JI"
-    api_key = "F78VTE0TSDMC6MDI"
-    naz_api_key= "PDQ22IFJZIFMT8BD"
+    
+    api_key_list= ["PXHH820C97TBS0JI", "F78VTE0TSDMC6MDI", "PDQ22IFJZIFMT8BD", "TRSFDAEBQ7ILZRO1", "9BLO3HP31NMWCZR1"]
+    api_key = random.choice(api_key_list)
 
     fromlist = ["EUR","GBP","USD","USD","EUR"]
     tolist = ["USD","USD","CAD","TRY","TRY"]
