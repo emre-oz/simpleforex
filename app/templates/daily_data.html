@@ -1,28 +1,32 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block app_content %}
+<style type="text/css">
+    .tg  {border-collapse:collapse;border-spacing:0;border-color:#93a1a1;}
+    .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#93a1a1;color:#002b36;background-color:#e4e4e4;}
+    .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#93a1a1;color:#fdf6e3;background-color:#5e5c58;}
+    .tg .tg-baqh{text-align:center;vertical-align:top}
+    .tg .tg-0lax{text-align:left;vertical-align:top}
+</style>
+
 <html>
     <head>
         {% if title %}
-        <title>{{ title }} - FOREXR</title>
+        <title>{{ title }} - Simple FOREX</title>
         {% else %}
-        <title>Welcome to FOREXR</title>
+        <title>Welcome to Simple FOREX</title>
         {% endif %}
     </head>
     <body>
-    <table style="margin-left: 20px;"> 
+    <table class="tg"> 
         <caption>Daily Exchange Rates for the day {{date}} </caption>
-        <th> 
-            <tr style="color: green; ">     
-            <td>Currency </td> 
-            <td>Rate</td> 
-    </tr> 
-        </th> 
+        <th class="tg-baqh"> Currency   </th> 
+        <th class="tg-baqh"> Rate   </th>
     {%for cur in daily_rates%} 
                     
     <tr> 
-        <td>{{cur}}</td> 
-        <td>{{daily_rates[cur]}}</td> 
+        <td class="tg-0lax">{{cur}}</td> 
+        <td class="tg-0lax">{{daily_rates[cur]}}</td> 
                       
     {%endfor%} 
                       

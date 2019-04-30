@@ -1,20 +1,21 @@
 from app import app
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 from app.forms import DailyForm, PeriodForm
 from flask_wtf import FlaskForm
-from getter import fetch_latest,fetch_daily, fetch_period, fetch_url_list
+from getter import fetch_latest,fetch_daily, fetch_period, fetch_live
+
 
 @app.route("/")
 @app.route("/index")
 def index():
-    l1, l2, l3, l4, l5 = fetch_url_list()
+    l1, l2, l3, l4, l5, l6, l7, l8 = fetch_live()
     
-    return render_template("index.html",title="Home", l1=l1, l2=l2, l3=l3, l4=l4, l5=l5)
+    return render_template("index.html",title="Home", l1=l1, l2=l2, l3=l3, l4=l4, l5=l5, l6=l6, l7=l7, l8=l8)
 
 @app.route("/latest", methods=["GET","POST"])
 def latest():
-    news = fetch_latest()
-    return render_template("latest.html", news=news, title="Latest Exchange Rates")
+    dict = fetch_latest()
+    return render_template("latest.html", dict=dict, title="Latest Exchange Rates")
 
 
 @app.route("/daily",methods=["GET","POST"])
@@ -45,5 +46,3 @@ def period_data():
     symbols= request.form.get("symbols")
     chart_data = fetch_period(start_day,end_day,symbols,base)
     return chart_data.render_response()
-    
-    

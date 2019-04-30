@@ -1,20 +1,31 @@
 import requests
-from url_define import url_define_latest, url_define_day, url_define_period, url_list_define_live    
+from url_define import url_define_latest, url_define_day, url_define_period, url_define_live
 import pygal
 from pygal.style import LightColorizedStyle as LCS, LightenStyle as LS
-
+import time
 
 def fetch_latest(base="EUR"):
     url = url_define_latest(base)
     r=requests.get(url)
     response_dict = r.json()
-    array=[]
+    sum_data = []
+    cur_list = []
+    rate_list = []
+    dict = {}
     
-    for currency in response_dict["rates"].items():
-        array.append(currency)
-    news=dict(array)
+    for cur, rate in response_dict["rates"].items():
+        sum_data.append(cur)
+        sum_data.append(rate)
 
-    return news
+    for i in range(0,len(sum_data),2):
+        cur_list.append(sum_data[i])
+    for j in range(1,len(sum_data),2):
+        rate_list.append(sum_data[j])
+        
+    dict["currency"] = cur_list
+    dict["rate"] = rate_list
+    
+    return dict
 
 def fetch_daily(date, symbols, base="EUR"):
     url=url_define_day(date,base,symbols)
@@ -65,47 +76,37 @@ def fetch_period(start_date,end_date,symbols,base="EUR"):
     
     return chart_data
 
-def fetch_url_list():
-    url_list = url_list_define_live()
-    sum_data = []
+def fetch_live():
     
-    for url in url_list:
-        r = requests.get(url)
-        response_dict=r.json()
-        
-        from_cur = response_dict["Realtime Currency Exchange Rate"]["1. From_Currency Code"]
-        to_cur = response_dict["Realtime Currency Exchange Rate"]["3. To_Currency Code"]
-        divide = str(from_cur + "/" + to_cur)
-        sum_data.append(divide)
-        rate= response_dict["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-        sum_data.append(rate)
-        refresh= response_dict["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
-        sum_data.append(refresh)
-        timezone= response_dict["Realtime Currency Exchange Rate"]["7. Time Zone"]
-        sum_data.append(timezone)
-
-    list1=[sum_data[i] for i in range(0,4)]
-    list2=[sum_data[i] for i in range(4,8)]
-    list3=[sum_data[i] for i in range(8,12)]
-    list4=[sum_data[i] for i in range(12,16)]
-    list5=[sum_data[i] for i in range(16,20)]
-
-    return list1,list2,list3,list4,list5
-
-        
-
-
-
-
-
-"""
-def fetch_live(from_currency,to_currency):
-    url= url_define_live(from_currency,to_currency)
+    url= url_define_live()
     r= requests.get(url)
     response_dict=r.json()
-    rate= response_dict["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-    refresh= response_dict["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
-    timezone= response_dict["Realtime Currency Exchange Rate"]["7. Time Zone"]
-    return rate, refresh, timezone
-"""
+    sum_data =[]
+
+    for pairs, rates in response_dict["rates"].items():
+
+        pairs = pairs[3:] + "/" +pairs[:3]
+        sum_data.append(pairs)
+
+        rate = rates["rate"]
+        epoch_time = rates["timestamp"]
+        timestamp = time.strftime("%d/%m %H:%M:%S", time.gmtime(epoch_time))
+        
+        sum_data.append(rate)
+        sum_data.append(timestamp)
+        
+
+    l1=sum_data[0:3]
+    l2=sum_data[3:6]
+    l3=sum_data[6:9]
+    l4=sum_data[9:12]
+    l5=sum_data[12:15]
+    l6=sum_data[15:18]
+    l7=sum_data[18:21]
+    l8=sum_data[21:24]
+
+    return l1,l2,l3,l4,l5,l6,l7,l8
+
+
+
 

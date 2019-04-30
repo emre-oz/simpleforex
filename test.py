@@ -1,24 +1,39 @@
 import requests
 
-def url_define_live(from_currency,to_currency):
-    url= "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&"
-    api_key = "PXHH820C97TBS0JI"
+def url_define_latest(base=None, symbols=None):
     
-    url="https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=" \
-        + from_currency + "&to_currency=" + to_currency + "&apikey=" + api_key
+    url = "https://api.exchangeratesapi.io/latest"
+    
+    if base != "":
+        url = url + "?base=" + str(base) 
+    else:
+        url = url
     
     return url
 
-def fetch_live(from_currency,to_currency):
-    url= url_define_live(from_currency,to_currency)
-    r= requests.get(url)
-    response_dict=r.json()
-    rate= response_dict["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-    refresh= response_dict["Realtime Currency Exchange Rate"]["6. Last Refreshed"]
-    timezone= response_dict["Realtime Currency Exchange Rate"]["7. Time Zone"]
-    return rate, refresh, timezone
+
+def fetch_latest(base="EUR"):
+    url = url_define_latest(base)
+    r=requests.get(url)
+    response_dict = r.json()
+    sum_data = []
+    cur_list = []
+    rate_list = []
+    dict = {}
+    
+    for cur, rate in response_dict["rates"].items():
+        sum_data.append(cur)
+        sum_data.append(rate)
+
+    for i in range(0,len(sum_data),2):
+        cur_list.append(sum_data[i])
+    for j in range(1,len(sum_data),2):
+        rate_list.append(sum_data[j])
+        
+    dict["rate"] = cur_list
+    dict["currency"] = rate_list
+    
+    return dict
 
 
-print(fetch_live("USD","SEK"))
-
-
+print(fetch_latest())
