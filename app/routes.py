@@ -2,19 +2,19 @@ from app import app
 from flask import render_template, request, redirect, url_for
 from app.forms import DailyForm, PeriodForm
 from flask_wtf import FlaskForm
-from getter import fetch_latest,fetch_daily, fetch_period, fetch_live
+from getter import fetch_latest,fetch_daily, fetch_period, fetch_cached_live
 
 
 @app.route("/")
 @app.route("/index")
 def index():
-    l1, l2, l3, l4, l5, l6, l7, l8 = fetch_live()
+    live_dict = fetch_cached_live()
     
-    return render_template("index.html",title="Home", l1=l1, l2=l2, l3=l3, l4=l4, l5=l5, l6=l6, l7=l7, l8=l8)
+    return render_template("index.html",title="Home", live_dict=live_dict)
 
 @app.route("/latest", methods=["GET","POST"])
 def latest():
-    dict = fetch_latest()
+    dict = fetch_cached_latest()
     return render_template("latest.html", dict=dict, title="Latest Exchange Rates")
 
 

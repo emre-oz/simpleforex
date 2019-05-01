@@ -22,77 +22,21 @@
 });
 </script>
 </head>
-<table class="tg">
+<table  class="tg"> 
   <tr>
-    <th class="tg-baqh">Currency</th>
-    <th class="tg-baqh">Rate</th>
-    <th class="tg-baqh">Last Refreshed</th>
-  </tr>
-    <tr>
-
-    {%for i in l1%}
-        
-        <td class="tg-0lax">{{i}}</td>  
-                          
-    {%endfor%} 
-  </tr>
-  <tr>
-        {%for j in l2%}
-        
-        <td class="tg-0lax">{{j}}</td>  
-                          
-    {%endfor%}
-  </tr>
-  <tr>
-        {%for k in l3%}
-        
-        <td class="tg-0lax">{{k}}</td>  
-                          
-    {%endfor%}
-  </tr>
-  <tr>
-        {%for m in l4%}
-        
-        <td class="tg-0lax">{{m}}</td>  
-                          
-    {%endfor%}
-  </tr>
-  <tr>
-        {%for n in l5%}
-        
-        <td class="tg-0lax">{{n}}</td>  
-                          
-    {%endfor%}
-  </tr>
-  <tr>
-
-    {%for o in l6%}
-        
-        <td class="tg-0lax">{{o}}</td>  
-                          
-    {%endfor%} 
-  </tr>
-  <tr>
-
-    {%for p in l7%}
-        
-        <td class="tg-0lax">{{p}}</td>  
-                          
-    {%endfor%} 
-  </tr>
-  <tr>
-
-    {%for q in l8%}
-        
-        <td class="tg-0lax">{{q}}</td>  
-                          
-    {%endfor%} 
-  </tr>
-
-
-
-
-</table>
+      <th class="tg-baqh">Pairs</th>
+      <th class="tg-baqh">Rates</th>
+      <th class="tg-baqh">Last Refreshed</th>
+  </tr>    
+      
+      {% for i in range(live_dict['pairs']|count) %}
+          <tr>
+              {% for k in live_dict %}
+                  <td class="tg-0lax">{{ live_dict[k][i] }}</td>
+              {% endfor %}
+          </tr>
+      {% endfor %}
+  </table>
 
 <body>
   <div style="position: relative">

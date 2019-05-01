@@ -3,6 +3,9 @@ from url_define import url_define_latest, url_define_day, url_define_period, url
 import pygal
 from pygal.style import LightColorizedStyle as LCS, LightenStyle as LS
 import time
+from werkzeug.contrib.cache import SimpleCache
+
+cache=SimpleCache()
 
 def fetch_latest(base="EUR"):
     url = url_define_latest(base)
@@ -81,32 +84,44 @@ def fetch_live():
     url= url_define_live()
     r= requests.get(url)
     response_dict=r.json()
-    sum_data =[]
+    pair_list = []
+    rate_list=[]
+    timestamp_list = []
+    live_dict ={}
 
     for pairs, rates in response_dict["rates"].items():
 
         pairs = pairs[3:] + "/" +pairs[:3]
-        sum_data.append(pairs)
+        pair_list.append(pairs)
 
         rate = rates["rate"]
         epoch_time = rates["timestamp"]
         timestamp = time.strftime("%d/%m %H:%M:%S", time.gmtime(epoch_time))
         
-        sum_data.append(rate)
-        sum_data.append(timestamp)
-        
+        rate_list.append(rate)
+        timestamp_list.append(timestamp)
+    
+    live_dict["pairs"]= pair_list
+    live_dict["rates"]= rate_list
+    live_dict["timestamps"]= timestamp_list
 
-    l1=sum_data[0:3]
-    l2=sum_data[3:6]
-    l3=sum_data[6:9]
-    l4=sum_data[9:12]
-    l5=sum_data[12:15]
-    l6=sum_data[15:18]
-    l7=sum_data[18:21]
-    l8=sum_data[21:24]
-
-    return l1,l2,l3,l4,l5,l6,l7,l8
+    return live_dict
 
 
+def fetch_cached_live():
+    live_dict = cache.get("cached_live_dict")
+    if live_dict is None:
+        live_dict = fetch_live()
+        cache.set("cached_live_dict", live_dict, timeout =10*60)
 
+    return live_dict
 
+def fetch_cached_latest():
+    dict = cache_get("cached_latest_dict")
+    if dict is None:
+        dict = fetch_latest()
+        cache.set("cached_latest_dict", dict, timeout= 60*60)
+
+    return dict
+    
+    
