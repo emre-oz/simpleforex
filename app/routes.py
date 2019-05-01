@@ -2,7 +2,7 @@ from app import app
 from flask import render_template, request, redirect, url_for
 from app.forms import DailyForm, PeriodForm
 from flask_wtf import FlaskForm
-from getter import fetch_latest,fetch_daily, fetch_period, fetch_cached_live
+from getter import fetch_cached_latest, fetch_daily, fetch_period, fetch_cached_live
 
 
 @app.route("/")

@@ -117,7 +117,7 @@ def fetch_cached_live():
     return live_dict
 
 def fetch_cached_latest():
-    dict = cache_get("cached_latest_dict")
+    dict = cache.get("cached_latest_dict")
     if dict is None:
         dict = fetch_latest()
         cache.set("cached_latest_dict", dict, timeout= 60*60)
