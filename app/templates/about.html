@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<head>
+    {% if title %}
+    <title>{{ title }} - Simple FOREX</title>
+    {% else %}
+    <title>Welcome to Simple FOREX</title>
+    {% endif %}
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-7339501564973590",
+    enable_page_level_ads: true
+});
+</script>
+</head>
+
+<body>
+    <div style="position: relative">
+        <p style="width:100%; text-align: center"> 
+          Simple FOREX is a fast and lightweight foreign exchange rate information source. The website is currently under development. To ensure integrity and correctness of data, we import from several data sources and APIs. 
+          For any inquiries or Paypal donations to cover hosting costs: erturk.emre98@gmail.com
+        </p>
+    </div>
+  </body>
+
+  {% endblock %}

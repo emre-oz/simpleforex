@@ -1,5 +1,6 @@
 import random
 
+#Define URL to get latest data from api.exchangeratesapi.io
 def url_define_latest(base=None, symbols=None):
     
     url = "https://api.exchangeratesapi.io/latest"
@@ -11,6 +12,7 @@ def url_define_latest(base=None, symbols=None):
     
     return url
 
+#Define URL to get daily data from api.exchangeratesapi.io
 def url_define_day(date,base,symbols):
     url = "https://api.exchangeratesapi.io/"
     
@@ -29,7 +31,8 @@ def url_define_day(date,base,symbols):
             url = url
     
     return url
- 
+
+#Define URL to get period data from api.exchangeratesapi.io 
 def url_define_period(start_date,end_date,symbols=None,base=None):
     url = "https://api.exchangeratesapi.io/"
     
@@ -50,6 +53,17 @@ def url_define_period(start_date,end_date,symbols=None,base=None):
     
     return url
 
+#Define URL to get live data from freeforexapi.com
+def url_define_live():
+    url= "https://www.freeforexapi.com/api/live?pairs="
+    pairs= "USDCAD,EURUSD,USDCHF,EURGBP,GBPUSD,NZDUSD,AUDUSD,USDJPY"
+    
+    url += pairs
+    
+    return url
+
+#Scrapped Alpha Vantage API because of request limits.
+"""
 def url_list_define_live():
     
     api_key_list= ["PXHH820C97TBS0JI", "F78VTE0TSDMC6MDI", "PDQ22IFJZIFMT8BD", "TRSFDAEBQ7ILZRO1", "9BLO3HP31NMWCZR1"]
@@ -63,11 +77,4 @@ def url_list_define_live():
             + fromlist[j] + "&to_currency=" + tolist[j] + "&apikey=" + api_key)
 
     return url_list
-
-def url_define_live():
-    url= "https://www.freeforexapi.com/api/live?pairs="
-    pairs= "USDCAD,EURUSD,USDCHF,EURGBP,GBPUSD,NZDUSD,AUDUSD,USDJPY"
-    
-    url += pairs
-    
-    return url
+"""

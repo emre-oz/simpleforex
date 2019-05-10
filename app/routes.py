@@ -17,12 +17,13 @@ def latest():
     dict = fetch_cached_latest()
     return render_template("latest.html", dict=dict, title="Latest Exchange Rates")
 
-
+#HTML posts user input to "/daily_data"
 @app.route("/daily",methods=["GET","POST"])
 def daily():
     daily_form=DailyForm()
     return render_template("daily.html", title="Daily Exchange Rates", form= daily_form)
 
+#INPUT: "GET" request to "/daily" route
 @app.route("/daily_data", methods=["GET","POST"])
 def daily_data():
     date= request.form.get("day")
@@ -32,12 +33,13 @@ def daily_data():
     
     return render_template("daily_data.html",title="Daily Exchange Rates",daily_rates=daily_rates,date=date)
 
+#HTML posts user input to "/period_data"
 @app.route("/period",methods=["GET","POST"])
 def period():
     period_form=PeriodForm()
     return render_template("period.html", title="Exchange Rates for Period",form=period_form)
 
-
+#INPUT: "GET" request to "/period" route
 @app.route("/period_data",methods=["GET","POST"])
 def period_data():
     start_day= request.form.get("start_day")
@@ -46,3 +48,7 @@ def period_data():
     symbols= request.form.get("symbols")
     chart_data = fetch_period(start_day,end_day,symbols,base)
     return chart_data.render_response()
+
+@app.route("/about", methods=["GET","POST"])
+def about():
+    return render_template("about.html", title= "About")

@@ -5,8 +5,10 @@ from pygal.style import LightColorizedStyle as LCS, LightenStyle as LS
 import time
 from werkzeug.contrib.cache import SimpleCache
 
+#Instance of SimpleCache object
 cache=SimpleCache()
 
+#/latest route
 def fetch_latest(base="EUR"):
     url = url_define_latest(base)
     r=requests.get(url)
@@ -30,6 +32,7 @@ def fetch_latest(base="EUR"):
     
     return dict
 
+#input: "/daily" route ; output: "/daily_data" route
 def fetch_daily(date, symbols, base="EUR"):
     url=url_define_day(date,base,symbols)
     r=requests.get(url)
@@ -41,20 +44,21 @@ def fetch_daily(date, symbols, base="EUR"):
 
     return daily_rates
 
+#input: "/period" route ; output: "/period_data" route
 def fetch_period(start_date,end_date,symbols,base="EUR"):
     url=url_define_period(start_date,end_date,symbols,base)
     r=requests.get(url)
     response_dict=r.json()
     ratelist=[]
 
+    #Data wrangling
     for tradingday in sorted(response_dict["rates"].keys()):
         plot_dict = {"value" : response_dict["rates"][tradingday][symbols], "label" : str(tradingday)}
         ratelist.append(plot_dict)
     
+    #Styling and configuration of chart
     my_style = LS("#333366" , base_style = LCS)
-
     my_config = pygal.Config()
-
     my_config.x_label_rotation = 45
     my_config.show_legend = True
     my_config.title_font_size = 24
@@ -63,22 +67,20 @@ def fetch_period(start_date,end_date,symbols,base="EUR"):
     my_config.truncate_label = 15
     my_config.show_y_guides = True
     my_config.width = 1000
-
     chart=pygal.Line(my_config, style= my_style)
 
+    #Char title specification
     if base == "":
         basetitle = "EUR"
     else:
         basetitle = base
-
     chart.title = basetitle + "/" + symbols + " exchange rate for the period: " + start_date + "/" + end_date
-
     chart.add("",ratelist)
-
     chart_data = chart
     
     return chart_data
 
+#"/index" and "/" route
 def fetch_live():
     
     url= url_define_live()
@@ -107,7 +109,7 @@ def fetch_live():
 
     return live_dict
 
-
+#Calls the fetch_live function and caches result for 10 minutes if no result is found in cache
 def fetch_cached_live():
     live_dict = cache.get("cached_live_dict")
     if live_dict is None:
@@ -116,6 +118,7 @@ def fetch_cached_live():
 
     return live_dict
 
+#Calls the fetch_latest function and caches result for 60 minutes if no result is found in cache
 def fetch_cached_latest():
     dict = cache.get("cached_latest_dict")
     if dict is None:
