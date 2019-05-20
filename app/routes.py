@@ -2,7 +2,7 @@ from app import app
 from flask import render_template, request, redirect, url_for
 from app.forms import DailyForm, PeriodForm
 from flask_wtf import FlaskForm
-from getter import fetch_cached_latest, fetch_daily, fetch_period, fetch_cached_live
+from getter import fetch_cached_latest, fetch_daily, fetch_period, fetch_cached_live, fetch_cached_latest_crypto
 
 
 @app.route("/")
@@ -48,6 +48,11 @@ def period_data():
     symbols= request.form.get("symbols")
     chart_data = fetch_period(start_day,end_day,symbols,base)
     return chart_data.render_response()
+
+@app.route("/crypto",methods=["GET","POST"])
+def crypto():
+    crypto_dict = fetch_cached_latest_crypto()
+    return render_template("crypto.html", crypto_dict = crypto_dict, title="Cryptocurrency Information")
 
 @app.route("/about", methods=["GET","POST"])
 def about():

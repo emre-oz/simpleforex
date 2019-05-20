@@ -39,3 +39,4 @@ class PeriodForm(FlaskForm):
         ("HUF","HUF"),("GBP","GBP"),("MXN","MXN"),("KRW","KRW"),("ISK","ISK"),("SGD","SGD"),("BRL","BRL"),("PLN","PLN"),("INR","INR"),\
         ("RON","RON"),("CNY","CNY"),("SEK","SEK")])
     submit=SubmitField("Get Data")
+

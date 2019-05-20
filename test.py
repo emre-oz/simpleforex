@@ -28,9 +28,9 @@ def fetch_period(start_date,end_date,symbols,base="EUR"):
     r=requests.get(url)
     response_dict=r.json()
     ratelist=[]
-    mva_list_global = []
-    upperband_list=[]
-    lowerband_list=[]
+    mva_list_global =[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None]
+    upperband_list=[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None]
+    lowerband_list=[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None]
     bandlist=[]
 
     #Data wrangling
@@ -53,26 +53,25 @@ def fetch_period(start_date,end_date,symbols,base="EUR"):
             for rate in array:
                 sqrd_deviation = round(pow(abs(rate-mva), 2), 3)
                 mva_list.append(sqrd_deviation)
-                sumva = sum(mva_list)
+                
             
+            sumva = sum(mva_list)
             upperband = mva + (2*sumva)
             lowerband = mva - (2*sumva)
             upperband_list.append(upperband)
             lowerband_list.append(lowerband)
             
-
-
     #Styling and configuration of chart
     my_style = LS("#333366" , base_style = LCS)
     my_config = pygal.Config()
-    my_config.x_label_rotation = 45
+    my_config.x_label_rotation = 20
     my_config.show_legend = True
     my_config.title_font_size = 24
     my_config.label_font_size = 14
     my_config.major_label_font_size = 18
     my_config.truncate_label = 15
     my_config.show_y_guides = True
-    my_config.width = 1000
+    my_config.width = 1000 
     chart=pygal.Line(my_config, style= my_style)
 
     #Char title specification
@@ -82,9 +81,12 @@ def fetch_period(start_date,end_date,symbols,base="EUR"):
         basetitle = base
     chart.title = basetitle + "/" + symbols + " exchange rate for the period: " + start_date + "/" + end_date
     chart.add("",ratelist)
-    chart_data = chart
+    chart.add("Upper Band",upperband_list)
+    chart.add("Lower Band",lowerband_list)
+    chart.add("20-day Moving Average",mva_list_global)
 
 
-    return print(mva_list_global, upperband_list, lowerband_list)
+    return chart.render_to_file("chart.svg")
 
-fetch_period("2018-01-01","2018-03-01","USD")
+fetch_period("2018-01-01","2019-01-01","TRY")
+

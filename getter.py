@@ -128,4 +128,44 @@ def fetch_cached_latest():
 
     return dict
     
+def fetch_latest_crypto():
+    url = "https://api.coinlore.com/api/tickers/"
+    r=requests.get(url)
+    response_dict = r.json()
+    volume_data = []
+    name_data = []
+    price_data = []
+    percent_change = []
+    crypto_dict = {}
     
+    for i in range(0,100):
+        a = response_dict["data"][i]["symbol"]
+        name_data.append(a)
+
+    for i in range(0,100):
+        b = response_dict["data"][i]["price_usd"]
+        price_data.append(b)
+
+    for i in range(0,100):
+        c = response_dict["data"][i]["volume24"]
+        volume_data.append(c)
+    
+    for i in range(0,100):
+        d = response_dict["data"][i]["percent_change_24h"]
+        percent_change.append(d)
+
+    crypto_dict["name"] = name_data
+    crypto_dict["price"] = price_data
+    crypto_dict["percent_change"] = volume_data
+    crypto_dict["volume"] = percent_change
+
+    
+    return crypto_dict
+
+def fetch_cached_latest_crypto():
+    crypto_dict = cache.get("cached_crypto_dict")
+    if crypto_dict is None:
+        crypto_dict = fetch_latest_crypto()
+        cache.set("cached_crypto_dict", crypto_dict, timeout= 60*60)
+
+    return crypto_dict
