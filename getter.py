@@ -56,6 +56,7 @@ def fetch_period(start_date,end_date,symbols,base="EUR"):
         plot_dict = {"value" : response_dict["rates"][tradingday][symbols], "label" : str(tradingday)}
         ratelist.append(plot_dict)
     
+
     #Styling and configuration of chart
     my_style = LS("#333366" , base_style = LCS)
     my_config = pygal.Config()
