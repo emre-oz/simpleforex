@@ -46,8 +46,8 @@ def period_data():
     end_day= request.form.get("end_day")
     base= request.form.get("base")
     symbols= request.form.get("symbols")
-    chart_data = fetch_period(start_day,end_day,symbols,base)
-    return chart_data.render_response()
+    chart = fetch_period(start_day,end_day,symbols,base)
+    return render_template("period_data.html", chart= chart, title= "Currency Information")
 
 @app.route("/crypto",methods=["GET","POST"])
 def crypto():

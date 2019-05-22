@@ -1,13 +1,2 @@
-<html>
-    {% extends "base.html" %}
-
-    <body>
-        <h1>Exchange Rate Info</h1>
-        <figure>
-            <embed type="image/svg+xml" src= {{chart_data|safe}} />
-        </figure>
-    </body>
-
-
-    </html>
-
+{% extends "base.html" %}
+{% block app_content %} {{chart|safe}} {% endblock %}

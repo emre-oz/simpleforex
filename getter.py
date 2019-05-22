@@ -77,9 +77,9 @@ def fetch_period(start_date,end_date,symbols,base="EUR"):
         basetitle = base
     chart.title = basetitle + "/" + symbols + " exchange rate for the period: " + start_date + "/" + end_date
     chart.add("",ratelist)
-    chart_data = chart
+    chart = chart.render(is_unicode= True)
     
-    return chart_data
+    return chart
 
 #"/index" and "/" route
 def fetch_live():
